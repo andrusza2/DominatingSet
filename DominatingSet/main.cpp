@@ -17,58 +17,6 @@ using namespace boost;
 // create a typedef for the Graph type
 typedef boost::undirected_graph<property<vertex_color_t, default_color_type>> Graph;
 
-template <class Graph> struct exercise_vertex {
-	exercise_vertex(Graph& g_) : g(g_) {}
-	//...
-
-	typedef typename graph_traits<Graph>
-		::vertex_descriptor Vertex;
-
-	void operator()(const Vertex& v) const
-	{
-		typedef graph_traits<Graph> GraphTraits;
-		typename property_map<Graph, vertex_index_t>::type
-			index = get(vertex_index, g);
-
-		std::cout << "out-edges: ";
-		typename GraphTraits::out_edge_iterator out_i, out_end;
-		typename GraphTraits::edge_descriptor e;
-		for (boost::tie(out_i, out_end) = out_edges(v, g);
-			out_i != out_end; ++out_i) {
-			e = *out_i;
-			Vertex src = source(e, g), targ = target(e, g);
-			std::cout << "(" << index[src] << ","
-				<< index[targ] << ") ";
-		}
-		std::cout << std::endl;
-		//...
-
-		std::cout << "in-edges: ";
-		typedef typename graph_traits<Graph> GraphTraits;
-		typename GraphTraits::in_edge_iterator in_i, in_end;
-		for (boost::tie(in_i, in_end) = in_edges(v, g);
-			in_i != in_end; ++in_i) {
-			e = *in_i;
-			Vertex src = source(e, g), targ = target(e, g);
-			std::cout << "(" << index[src] << "," << index[targ] << ") ";
-		}
-		std::cout << std::endl;
-
-
-
-		std::cout << "adjacent vertices: ";
-		typename graph_traits<Graph>::adjacency_iterator ai;
-		typename graph_traits<Graph>::adjacency_iterator ai_end;
-		for (boost::tie(ai, ai_end) = adjacent_vertices(v, g);
-			ai != ai_end; ++ai)
-			std::cout << index[*ai] << " ";
-		std::cout << std::endl;
-
-
-	}
-
-	Graph& g;
-};
 
 
 void cin_edges(Graph & g, int num_edges)
@@ -167,7 +115,7 @@ int main(int, char*[])
 
 	auto dominating_set_1 = DominatingSet::PerformRegularGreedy(g);
 
-	std::cout << "Regular Greedy ended, dominating set founded (size: " << dominating_set_1.size() << "):" << std::endl;
+	std::cout << "Regular Greedy ended, dominating set found (size: " << dominating_set_1.size() << "):" << std::endl;
 	//for (auto&& node_index : dominating_set_1)
 	//{
 	//	std::cout << node_index << " ";
@@ -180,7 +128,7 @@ int main(int, char*[])
 
 	auto dominating_set_2 = DominatingSet::PerformVRegularGreedy(g);
 
-	std::cout << "V Regular Greedy ended, dominating set founded (size: " << dominating_set_2.size() << "):" << std::endl;
+	std::cout << "V Regular Greedy ended, dominating set found (size: " << dominating_set_2.size() << "):" << std::endl;
 	//for (auto&& node_index : dominating_set_2)
 	//{
 	//	std::cout << node_index << " ";
@@ -192,7 +140,7 @@ int main(int, char*[])
 
 	auto dominating_set_3 = DominatingSet::PerformRegularGreedyPlus(g);
 
-	std::cout << "Regular Greedy Plus ended, dominating set founded (size: " << dominating_set_3.size() << "):" << std::endl;
+	std::cout << "Regular Greedy Plus ended, dominating set found (size: " << dominating_set_3.size() << "):" << std::endl;
 	//for (auto&& node_index : dominating_set_3)
 	//{
 	//	std::cout << node_index << " ";
@@ -205,7 +153,7 @@ int main(int, char*[])
 
 	auto dominating_set_4 = DominatingSet::PerformVRegularGreedyPlus(g);
 
-	std::cout << "V Regular Greedy Plus ended, dominating set founded (size: " << dominating_set_4.size() << "):" << std::endl;
+	std::cout << "V Regular Greedy Plus ended, dominating set found (size: " << dominating_set_4.size() << "):" << std::endl;
 	//for (auto&& node_index : dominating_set_4)
 	//{
 	//	std::cout << node_index << " ";
@@ -219,7 +167,7 @@ int main(int, char*[])
 
 	auto dominating_set_5 = DominatingSet::PerformFastGreedy(g);
 
-	std::cout << "Fast Greedy ended, dominating set founded (size: " << dominating_set_5.size() << "):" << std::endl;
+	std::cout << "Fast Greedy ended, dominating set found (size: " << dominating_set_5.size() << "):" << std::endl;
 	//for (auto&& vertex : dominating_set_5)
 	//{
 	//	std::cout << vertex << " ";
