@@ -32,6 +32,8 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 
 	std::set<int> neighbors;
 
+	std::cout << g.num_vertices() << std::endl;
+
 
 	int ind = 0;
 	while (neighbors.size() < g.num_vertices())
@@ -57,12 +59,18 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 			}
 		}
 
+		if (neighbors.count(index[v]) == 0)
+		{
+			vertex_to_add = true;
+		}
+
 		if (vertex_to_add)
 		{
 			//std::cout << "Inserting vertex " << index[v] << std::endl;
 			dominating_set.insert(index[v]);
+			neighbors.insert(index[v]);
 		}
-		neighbors.insert(index[v]);
+		
 		++ind;
 	}
 
