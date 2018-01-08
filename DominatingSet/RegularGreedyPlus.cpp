@@ -1,23 +1,14 @@
 #include "DominatingSet.h"
 
-#include <boost/graph/filtered_graph.hpp>
-#include <boost/function.hpp>
-
-
-using Filtered = filtered_graph<Graph, keep_all, boost::function<bool(Vertex)> >;
-
 
 /// Algorithm 3 - RegularGreedyPlus
 
 
 std::set<int> DominatingSet::PerformRegularGreedyPlus(Graph g)
 {
-	//std::cout << num_vertices(g) << std::endl;
-	//std::cout << num_edges(g) << std::endl;
-
 	std::set<int> dominating_set;
 
-	// get the property map for vertex indices
+	// Get the property map for vertex indices
 	typedef property_map<Graph, vertex_index_t>::type IndexMap;
 	IndexMap index = get(vertex_index, g);
 
@@ -49,11 +40,8 @@ std::set<int> DominatingSet::PerformRegularGreedyPlus(Graph g)
 
 	while (white_nodes.size() > 0)
 	{
-		
-		//Vertex current_node = *ui;
 		Vertex current_node = *white_nodes.begin();
 		int max_degree = 0;
-
 
 		for (boost::tie(ui, ui_end) = vertices(f); ui != ui_end; ++ui)
 		{
@@ -74,8 +62,6 @@ std::set<int> DominatingSet::PerformRegularGreedyPlus(Graph g)
 			ai != ai_end; ++ai)
 		{
 			neighbors_of_current_node.insert(*ai);
-			//colorMap[*ai] = black_color;
-			//white_nodes.erase(*ai);
 		}
 
 		colorMap[current_node] = black_color;

@@ -3,6 +3,7 @@
 
 /// Algorithm 5 - FastGreedy
 
+
 std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 {
 	// get the property map for vertex indices
@@ -15,8 +16,8 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 
 	for (boost::tie(ui, ui_end) = vertices(g); ui != ui_end; ++ui)
 	{
+		// Add every vertex to queue with its degree as key
 		vertices_vector.push_back(std::make_pair(*ui, degree(*ui, g)));
-		// add every vertex to queue with its degree as key
 	}
 
 	std::sort(vertices_vector.begin(),
@@ -26,22 +27,15 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 		return left.second > right.second;
 	});
 
-	//std::cout << "Sorting vertices" << std::endl;
 
 	std::set<int> dominating_set;
-
 	std::set<int> neighbors;
-
-	std::cout << g.num_vertices() << std::endl;
 
 
 	int ind = 0;
 	while (neighbors.size() < g.num_vertices())
-		//for (auto&& i : vertices_vector)
 	{
 		auto& i = vertices_vector[ind];
-
-		//std::cout << "Vertex " << index[i.first] << " of degree " << i.second << std::endl;
 
 		Vertex& v = i.first;
 
@@ -66,7 +60,6 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 
 		if (vertex_to_add)
 		{
-			//std::cout << "Inserting vertex " << index[v] << std::endl;
 			dominating_set.insert(index[v]);
 			neighbors.insert(index[v]);
 		}

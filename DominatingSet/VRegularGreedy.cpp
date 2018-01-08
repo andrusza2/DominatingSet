@@ -1,30 +1,8 @@
 #include "DominatingSet.h"
 
-#include <boost/graph/filtered_graph.hpp>
-#include <boost/function.hpp>
-
-#include <boost/range/algorithm/for_each.hpp>
-
-using Filtered = filtered_graph<Graph, keep_all, boost::function<bool(Vertex)> >;
-
-template <typename Graph>
-void printEdges(const Graph& g) {
-	boost::for_each(edges(g), [&g](const auto& edge) {
-		std::cout << "index: " << edge.idx << ", "
-			<< "source: " << edge.src << ", "
-			<< "property: " << g[edge].y << std::endl;
-	});
-}
-
-template <typename Graph>
-void printVertices(const Graph& g) {
-	boost::for_each(vertices(g), [&g](const auto& vertex) {
-		std::cout << "vertex: " << vertex << ", "
-			<< std::endl;
-	});
-}
 
 /// Algorithm 2 - VRegularGeeedy
+
 
 std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 {
@@ -34,16 +12,10 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 	std::set<Vertex> white_nodes;
 
 
-	//Graph g;
-
-
-	//// Make copy to use in Algorithm 1
-	//copy_graph(graph, g);
-
 	// Get color map (default - white)
 	property_map<Graph, vertex_color_t>::type colorMap = get(vertex_color, graph);
 
-	// get the property map for vertex indices
+	// Get the property map for vertex indices
 	typedef property_map<Graph, vertex_index_t>::type IndexMap;
 	IndexMap index = get(vertex_index, graph);
 
@@ -58,7 +30,6 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 			dominating_set.insert(index[v]);
 		}
 	}
-
 
 
 	std::set<Vertex> D1; // degree_of_1_vertices
@@ -82,18 +53,10 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 	for (auto&& v : D1)
 	{
 		colorMap[v] = black_color;
-
-		//std::cout << "D1: " << std::endl;
-		//std::cout << index[v] << std::endl;
-		//clear_vertex(v, g);
-		//remove_vertex(v, g);
 	}
 
 	for (auto&& v : neighbors_of_D1)
 	{
-		//std::cout << "Neighbors_of_D1: " << std::endl;
-		//std::cout << index[v] << std::endl;
-
 		dominating_set.insert(index[v]);
 
 		colorMap[v] = black_color;
@@ -103,16 +66,12 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 		for (boost::tie(ai, ai_end) = adjacent_vertices(v, graph);
 			ai != ai_end; ++ai)
 			colorMap[*ai] = black_color;
-
-		//clear_vertex(v, g);
-		//remove_vertex(v, g);
 	}
 
 	//PreformRegularGreedy(g);
 	////auto g_prim_ds = PreformRegularGreedy(g);
 
 	////dominating_set.insert(g_prim_ds.begin(), g_prim_ds.end());
-
 
 
 	Filtered f(graph, keep_all{}, [&](Vertex v) { return colorMap[v] != black_color; });
@@ -159,12 +118,9 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 			white_nodes.erase(*ai);
 		}
 
-		colorMap[current_node] = black_color; // no-effect, ale dla zgodnoœci z nomenklatur¹
+		colorMap[current_node] = black_color;
 		white_nodes.erase(current_node);
-		//clear_vertex(current_node, g);
-		//remove_vertex(current_node, g);
 	}
 
 	return dominating_set;
-
 }

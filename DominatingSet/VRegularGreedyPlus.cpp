@@ -1,11 +1,8 @@
 #include "DominatingSet.h"
 
-#include <boost/graph/filtered_graph.hpp>
-#include <boost/function.hpp>
-
-using Filtered = filtered_graph<Graph, keep_all, boost::function<bool(Vertex)> >;
 
 /// Algorithm 4 - VRegularGreedyPlus
+
 
 std::set<int> DominatingSet::PerformVRegularGreedyPlus(Graph graph)
 {
@@ -14,7 +11,7 @@ std::set<int> DominatingSet::PerformVRegularGreedyPlus(Graph graph)
 	// Get color map (default - white)
 	property_map<Graph, vertex_color_t>::type colorMap = get(vertex_color, graph);
 
-	// get the property map for vertex indices
+	// Get the property map for vertex indices
 	typedef property_map<Graph, vertex_index_t>::type IndexMap;
 	IndexMap index = get(vertex_index, graph);
 
@@ -70,8 +67,6 @@ std::set<int> DominatingSet::PerformVRegularGreedyPlus(Graph graph)
 
 	////dominating_set.insert(g_prim_ds.begin(), g_prim_ds.end());
 
-
-
 	Filtered f(graph, keep_all{}, [&](Vertex v) { return colorMap[v] != black_color; });
 
 	graph_traits<Filtered>::vertex_iterator ui, ui_end;
@@ -121,5 +116,4 @@ std::set<int> DominatingSet::PerformVRegularGreedyPlus(Graph graph)
 	}
 
 	return dominating_set;
-
 }
