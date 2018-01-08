@@ -12,6 +12,7 @@
 
 #include <boost/graph/detail/d_ary_heap.hpp>
 #include "DominatingSet.h"
+#include <chrono>
 
 
 #include <cstdio>
@@ -23,20 +24,23 @@ using namespace boost;
 typedef boost::undirected_graph<property<vertex_color_t, default_color_type>> Graph;
 
 std::map<int, int> indices_map;
+std::map<int, int> map_to_original_index;
+
 int current_map_index = 0;
 
 void add_edge_with_index(Graph & g, int a, int b)
 {
-
 	auto ret = indices_map.insert(std::make_pair(a, current_map_index));
 	if (ret.second == true)
 	{
+        map_to_original_index.insert(std::make_pair(current_map_index, a));
 		++current_map_index;
 	}
 
 	ret = indices_map.insert(std::make_pair(b, current_map_index));
 	if (ret.second == true)
 	{
+        map_to_original_index.insert(std::make_pair(current_map_index, b));
 		++current_map_index;
 	}
 
@@ -51,16 +55,20 @@ void cin_edges(Graph & g, int num_edges)
 		int a, b;
 		char coma;
 
-		//scanf("%d%c%d", &a, &coma, &b);
-
-
 		std::cin >> a;
 		std::cin >> coma;
 		std::cin >> b;
 
-		//g.add_edge(vertex(a-1, g), vertex(b-1, g));
 		add_edge_with_index(g, a, b);
 	}
+}
+
+void print_dominating_set(std::set<int>  & dominating_set_1) {
+
+	for(auto f : dominating_set_1) {
+		std::cout << map_to_original_index[f] << " ";
+	}
+	std::cout << std::endl;
 }
 
 
@@ -118,27 +126,6 @@ int main(int, char*[])
 	IndexMap index = get(vertex_index, g);
 
 
-
-	
-
-	//std::cout << "vertices(g) = ";
-	//typedef graph_traits<Graph>::vertex_iterator vertex_iter;
-	//std::pair<vertex_iter, vertex_iter> vp;
-	//for (vp = vertices(g); vp.first != vp.second; ++vp.first) {
-	//	Vertex v = *vp.first;
-	//	std::cout << index[v] << " (degree: " << degree(v, g) << ") ";
-	//}
-	//std::cout << std::endl;
-
-	//std::cout << "edges(g) = ";
-	//graph_traits<Graph>::edge_iterator ei, ei_end;
-	//for (boost::tie(ei, ei_end) = edges(g); ei != ei_end; ++ei)
-	//	std::cout << "(" << index[source(*ei, g)]
-	//	<< "," << index[target(*ei, g)] << ") ";
-	//std::cout << std::endl;
-	//std::cout << std::endl;
-
-
 	// Accessing the Edge Set
 
 	std::set<Vertex> D1; // degree_of_1_vertices
@@ -148,51 +135,51 @@ int main(int, char*[])
 
 	/// Algorithm 1 - Regular Greedy
 
+    auto start_time = std::chrono::high_resolution_clock::now();
 	auto dominating_set_1 = DominatingSet::PerformRegularGreedy(g);
+    auto end_time = std::chrono::high_resolution_clock::now();
 
 	std::cout << "Regular Greedy ended, dominating set found (size: " << dominating_set_1.size() << "):" << std::endl;
-	//for (auto&& node_index : dominating_set_1)
-	//{
-	//	std::cout << node_index << " ";
-	//}
+    std::cout << "Regular Greedy duration: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
+	//print_dominating_set(dominating_set_1);
 	std::cout << std::endl;
 	std::cout << std::endl;
 
 
 	/// Algorithm 2 - V Regular Greedy
 
+    start_time = std::chrono::high_resolution_clock::now();
 	auto dominating_set_2 = DominatingSet::PerformVRegularGreedy(g);
+    end_time = std::chrono::high_resolution_clock::now();
+	//print_dominating_set(dominating_set_2);
 
 	std::cout << "V Regular Greedy ended, dominating set found (size: " << dominating_set_2.size() << "):" << std::endl;
-	//for (auto&& node_index : dominating_set_2)
-	//{
-	//	std::cout << node_index << " ";
-	//}
+    std::cout << "V Regular Greedy duration: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
 	std::cout << std::endl;
 	std::cout << std::endl;
 
 	/// Algorithm 3 - Regular Greedy Plus
 
+    start_time = std::chrono::high_resolution_clock::now();
 	auto dominating_set_3 = DominatingSet::PerformRegularGreedyPlus(g);
+    end_time = std::chrono::high_resolution_clock::now();
+    //print_dominating_set(dominating_set_3);
 
 	std::cout << "Regular Greedy Plus ended, dominating set found (size: " << dominating_set_3.size() << "):" << std::endl;
-	//for (auto&& node_index : dominating_set_3)
-	//{
-	//	std::cout << node_index << " ";
-	//}
+    std::cout << "Regular Greedy Plus duration: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
 	std::cout << std::endl;
 	std::cout << std::endl;
 
 
 	/// Algorithm 4 - V Regular Greedy Plus
 
+    start_time = std::chrono::high_resolution_clock::now();
 	auto dominating_set_4 = DominatingSet::PerformVRegularGreedyPlus(g);
+    end_time = std::chrono::high_resolution_clock::now();
+	//print_dominating_set(dominating_set_4);
 
 	std::cout << "V Regular Greedy Plus ended, dominating set found (size: " << dominating_set_4.size() << "):" << std::endl;
-	//for (auto&& node_index : dominating_set_4)
-	//{
-	//	std::cout << node_index << " ";
-	//}
+    std::cout << "V Regular Greedy Plus duration: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
 	std::cout << std::endl;
 	std::cout << std::endl;
 
@@ -200,13 +187,13 @@ int main(int, char*[])
 
 	/// Algorithm 5 - Fast Greedy
 
+    start_time = std::chrono::high_resolution_clock::now();
 	auto dominating_set_5 = DominatingSet::PerformFastGreedy(g);
+    end_time = std::chrono::high_resolution_clock::now();
+	//print_dominating_set(dominating_set_5);
 
 	std::cout << "Fast Greedy ended, dominating set found (size: " << dominating_set_5.size() << "):" << std::endl;
-	//for (auto&& vertex : dominating_set_5)
-	//{
-	//	std::cout << vertex << " ";
-	//}
+    std::cout << "Fast Greedy duration: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
 	std::cout << std::endl;
 
 
