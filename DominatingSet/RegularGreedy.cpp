@@ -9,6 +9,7 @@ using Filtered = filtered_graph<Graph, keep_all, boost::function<bool(Vertex)> >
 
 /// Algorithm 1 - RegularGreedy
 
+
 std::set<int> DominatingSet::PerformRegularGreedy(Graph g)
 {
 	//std::cout << num_vertices(g) << std::endl;
@@ -56,6 +57,18 @@ std::set<int> DominatingSet::PerformRegularGreedy(Graph g)
 
 	// Get color map (default - white)
 	property_map<Graph, vertex_color_t>::type colorMap = get(vertex_color, g);
+
+	typedef graph_traits<Graph>::vertex_iterator vertex_iter;
+	std::pair<vertex_iter, vertex_iter> vp;
+	for (vp = vertices(g); vp.first != vp.second; ++vp.first) {
+		Vertex v = *vp.first;
+		if (degree(v, g) == 0)
+		{
+			colorMap[v] = black_color;
+			dominating_set.insert(index[v]);
+		}
+	}
+
 
 	Filtered f(g, keep_all{}, [&](Vertex v) { return colorMap[v] != black_color; });
 

@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>                  // for std::cout
 #include <utility>                   // for std::pair
 #include <algorithm>                 // for std::for_each
@@ -11,12 +13,35 @@
 #include <boost/graph/detail/d_ary_heap.hpp>
 #include "DominatingSet.h"
 
+
+#include <cstdio>
+
 using namespace boost;
 
 
 // create a typedef for the Graph type
 typedef boost::undirected_graph<property<vertex_color_t, default_color_type>> Graph;
 
+std::map<int, int> indices_map;
+int current_map_index = 0;
+
+void add_edge_with_index(Graph & g, int a, int b)
+{
+
+	auto ret = indices_map.insert(std::make_pair(a, current_map_index));
+	if (ret.second == true)
+	{
+		++current_map_index;
+	}
+
+	ret = indices_map.insert(std::make_pair(b, current_map_index));
+	if (ret.second == true)
+	{
+		++current_map_index;
+	}
+
+	g.add_edge(vertex(indices_map[a], g), vertex(indices_map[b], g));
+}
 
 
 void cin_edges(Graph & g, int num_edges)
@@ -25,13 +50,16 @@ void cin_edges(Graph & g, int num_edges)
 	{
 		int a, b;
 		char coma;
+
+		//scanf("%d%c%d", &a, &coma, &b);
+
+
 		std::cin >> a;
 		std::cin >> coma;
 		std::cin >> b;
 
-		Vertex u, v;
-
-		g.add_edge(vertex(a-1, g), vertex(b-1, g));
+		//g.add_edge(vertex(a-1, g), vertex(b-1, g));
+		add_edge_with_index(g, a, b);
 	}
 }
 
@@ -69,9 +97,16 @@ int main(int, char*[])
 
 	std::cin >> num_ver >> num_edg;
 
+
+
 	Graph g(num_ver);
 
+	std::cout << "Empty Graph Created" << std::endl;
+
 	cin_edges(g, num_edg);
+
+
+	std::cout << "Edges added to Graph" << std::endl;
 
 
 	// Accessing the Vertex Set
@@ -111,17 +146,17 @@ int main(int, char*[])
 
 	std::set<int> dominating_set;
 
-	/// Algorithm 1 - Regular Greedy
+	///// Algorithm 1 - Regular Greedy
 
-	auto dominating_set_1 = DominatingSet::PerformRegularGreedy(g);
+	//auto dominating_set_1 = DominatingSet::PerformRegularGreedy(g);
 
-	std::cout << "Regular Greedy ended, dominating set found (size: " << dominating_set_1.size() << "):" << std::endl;
-	//for (auto&& node_index : dominating_set_1)
-	//{
-	//	std::cout << node_index << " ";
-	//}
-	std::cout << std::endl;
-	std::cout << std::endl;
+	//std::cout << "Regular Greedy ended, dominating set found (size: " << dominating_set_1.size() << "):" << std::endl;
+	////for (auto&& node_index : dominating_set_1)
+	////{
+	////	std::cout << node_index << " ";
+	////}
+	//std::cout << std::endl;
+	//std::cout << std::endl;
 
 
 	/// Algorithm 2 - V Regular Greedy

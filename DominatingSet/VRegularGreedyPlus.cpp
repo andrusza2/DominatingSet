@@ -23,6 +23,16 @@ std::set<int> DominatingSet::PerformVRegularGreedyPlus(Graph graph)
 
 	typedef graph_traits<Graph>::vertex_iterator vertex_iter;
 	std::pair<vertex_iter, vertex_iter> vp;
+
+	for (vp = vertices(graph); vp.first != vp.second; ++vp.first) {
+		Vertex v = *vp.first;
+		if (degree(v, graph) == 0)
+		{
+			colorMap[v] = black_color;
+			dominating_set.insert(index[v]);
+		}
+	}
+
 	for (vp = vertices(graph); vp.first != vp.second; ++vp.first) {
 		Vertex v = *vp.first;
 		if (degree(v, graph) == 1)

@@ -62,6 +62,7 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 			//std::cout << "Inserting vertex " << index[v] << std::endl;
 			dominating_set.insert(index[v]);
 		}
+		neighbors.insert(index[v]);
 		++ind;
 	}
 

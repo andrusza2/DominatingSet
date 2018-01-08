@@ -47,11 +47,24 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 	typedef property_map<Graph, vertex_index_t>::type IndexMap;
 	IndexMap index = get(vertex_index, graph);
 
-	std::set<Vertex> D1; // degree_of_1_vertices
-	std::set<Vertex> neighbors_of_D1;
 
 	typedef graph_traits<Graph>::vertex_iterator vertex_iter;
 	std::pair<vertex_iter, vertex_iter> vp;
+	for (vp = vertices(graph); vp.first != vp.second; ++vp.first) {
+		Vertex v = *vp.first;
+		if (degree(v, graph) == 0)
+		{
+			colorMap[v] = black_color;
+			dominating_set.insert(index[v]);
+		}
+	}
+
+
+
+	std::set<Vertex> D1; // degree_of_1_vertices
+	std::set<Vertex> neighbors_of_D1;
+
+
 	for (vp = vertices(graph); vp.first != vp.second; ++vp.first) {
 		Vertex v = *vp.first;
 		if (degree(v, graph) == 1)
