@@ -115,7 +115,7 @@ std::set<int> DominatingSet::PerformVRegularGreedyPlus(Graph graph)
 		for (auto&& node : neighbors_of_current_node)
 		{
 			colorMap[node] = black_color;
-			white_nodes.erase(current_node);
+			white_nodes.erase(node);
 		}
 
 	}

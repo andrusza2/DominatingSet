@@ -146,17 +146,17 @@ int main(int, char*[])
 
 	std::set<int> dominating_set;
 
-	///// Algorithm 1 - Regular Greedy
+	/// Algorithm 1 - Regular Greedy
 
-	//auto dominating_set_1 = DominatingSet::PerformRegularGreedy(g);
+	auto dominating_set_1 = DominatingSet::PerformRegularGreedy(g);
 
-	//std::cout << "Regular Greedy ended, dominating set found (size: " << dominating_set_1.size() << "):" << std::endl;
-	////for (auto&& node_index : dominating_set_1)
-	////{
-	////	std::cout << node_index << " ";
-	////}
-	//std::cout << std::endl;
-	//std::cout << std::endl;
+	std::cout << "Regular Greedy ended, dominating set found (size: " << dominating_set_1.size() << "):" << std::endl;
+	//for (auto&& node_index : dominating_set_1)
+	//{
+	//	std::cout << node_index << " ";
+	//}
+	std::cout << std::endl;
+	std::cout << std::endl;
 
 
 	/// Algorithm 2 - V Regular Greedy
