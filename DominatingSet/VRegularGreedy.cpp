@@ -128,13 +128,13 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 		Vertex current_node = *white_nodes.begin();
 		int max_span = 0;
 
-		for (auto&& v : white_nodes)
+		for (boost::tie(ui, ui_end) = vertices(f); ui != ui_end; ++ui)
 		{
 			int span = 1;
 
 			typename graph_traits<Filtered>::adjacency_iterator ai;
 			typename graph_traits<Filtered>::adjacency_iterator ai_end;
-			for (boost::tie(ai, ai_end) = adjacent_vertices(v, f);
+			for (boost::tie(ai, ai_end) = adjacent_vertices(*ui, f);
 				ai != ai_end; ++ai)
 			{
 				if (colorMap[*ai] == white_color)
@@ -144,7 +144,7 @@ std::set<int> DominatingSet::PerformVRegularGreedy(Graph graph)
 			if (span > max_span)
 			{
 				max_span = span;
-				current_node = v;
+				current_node = *ui;
 			}
 		}
 
