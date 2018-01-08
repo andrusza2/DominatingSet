@@ -6,7 +6,7 @@
 
 std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 {
-	// get the property map for vertex indices
+	// Get the property map for vertex indices
 	typedef property_map<Graph, vertex_index_t>::type IndexMap;
 	IndexMap index = get(vertex_index, g);
 
@@ -16,7 +16,7 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 
 	for (boost::tie(ui, ui_end) = vertices(g); ui != ui_end; ++ui)
 	{
-		// Add every vertex to queue with its degree as key
+		// Add every vertex to queue with its degree as key to vertices_vector
 		vertices_vector.push_back(std::make_pair(*ui, degree(*ui, g)));
 	}
 
@@ -33,6 +33,7 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 
 
 	int ind = 0;
+
 	while (neighbors.size() < g.num_vertices())
 	{
 		auto& i = vertices_vector[ind];
