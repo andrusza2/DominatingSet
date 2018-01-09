@@ -32,4 +32,15 @@ public:
 	// Campan et al. 
 	static std::set<int> PerformRegularGreedyPlus(Graph g);
 	static std::set<int> PerformVRegularGreedyPlus(Graph g);
+
+	enum Algorithm
+	{
+		REGULAR_GREEDY = 1,
+		V_REGULAR_GREEDY,
+		REGULAR_GREEDY_PLUS,
+		V_REGULAR_GREEDY_PLUS,
+		FAST_GREEDY,
+		LAST = FAST_GREEDY
+	};
+
 };
