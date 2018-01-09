@@ -10,7 +10,9 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 	typedef property_map<Graph, vertex_index_t>::type IndexMap;
 	IndexMap index = get(vertex_index, g);
 
-	std::vector<std::pair<Vertex, int>> vertices_vector;
+	typedef std::pair<Vertex, int> VertexWithDegree;
+
+	std::vector<VertexWithDegree> vertices_vector;
 
 	graph_traits<Graph>::vertex_iterator ui, ui_end;
 
@@ -22,7 +24,7 @@ std::set<int> DominatingSet::PerformFastGreedy(Graph g)
 
 	std::sort(vertices_vector.begin(),
 		vertices_vector.end(),
-		[](auto &left, auto &right)
+		[](VertexWithDegree &left, VertexWithDegree &right)
 	{
 		return left.second > right.second;
 	});
