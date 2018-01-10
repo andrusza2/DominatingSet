@@ -54,9 +54,14 @@ void print_dominating_set(std::set<int>  & dominating_set)
 {
 	std::cout << dominating_set.size() << std::endl;
 
-	for(auto f : dominating_set) 
+	bool first = true;
+	for(auto f : dominating_set)
 	{
-		std::cout << map_to_original_index[f] << ",";
+		if(!first) {
+			std::cout << ",";
+		}
+		std::cout << map_to_original_index[f];
+        first = false;
 	}
 	std::cout << std::endl;
 }
